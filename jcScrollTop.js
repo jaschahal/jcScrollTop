@@ -20,19 +20,19 @@ jQuery.fn.jcScrollTop = function(settings) {
                     }
     },settings);
       
-      var windowCenter = Math.max(0, (($(window).width() - this.outerWidth()) / 2) + $(window).scrollLeft()) + "px";
+      var windowCenter = Math.max(0, ((jQuery(window).width() - this.outerWidth()) / 2) + jQuery(window).scrollLeft()) + "px";
 
-      $("body").append("<div id='"+settings.scrollElementId+"' style='background:"+settings.backgroundColor+";border:"+settings.containerBorder+";border-radius:"+settings.borderRadius+";position:fixed;bottom:-2px;width:"+settings.containerWidth+";font-weight:"+settings.fontWeight+";color:"+settings.foreColor+";text-align:center;font-family:"+settings.fontFamily+";font-size:"+settings.fontSize+";cursor:pointer;padding:"+settings.textPadding+"'>"+settings.scrollText+"</div>")
+      jQuery("body").append("<div id='"+settings.scrollElementId+"' style='background:"+settings.backgroundColor+";border:"+settings.containerBorder+";border-radius:"+settings.borderRadius+";position:fixed;bottom:-2px;width:"+settings.containerWidth+";font-weight:"+settings.fontWeight+";color:"+settings.foreColor+";text-align:center;font-family:"+settings.fontFamily+";font-size:"+settings.fontSize+";cursor:pointer;padding:"+settings.textPadding+"'>"+settings.scrollText+"</div>")
       
       if(settings.position == 'left') 
-        $("#"+settings.scrollElementId).css("left",'10px');
+        jQuery("#"+settings.scrollElementId).css("left",'10px');
       else if(settings.position == 'center') 
-        $("#"+settings.scrollElementId).css("left",windowCenter);
+        jQuery("#"+settings.scrollElementId).css("left",windowCenter);
       else 
-        $("#"+settings.scrollElementId).css("right",'10px');
+        jQuery("#"+settings.scrollElementId).css("right",'10px');
 
-      $("#"+settings.scrollElementId).hide().click(function(){
-          $("html,body").animate({
+      jQuery("#"+settings.scrollElementId).hide().click(function(){
+          jQuery("html,body").animate({
                                     scrollTop:0
                                   },
                                   settings.duration,
@@ -41,14 +41,14 @@ jQuery.fn.jcScrollTop = function(settings) {
                                     settings.callback();  
                                   });
       });
-      $(window).scroll(function(){
-          var whereat = $(window).scrollTop();
+      jQuery(window).scroll(function(){
+          var whereat = jQuery(window).scrollTop();
           if(whereat > settings.scroleActivateAt) {
             // you can do all sort of animations here
-            $("#"+settings.scrollElementId).show('slow');              
+            jQuery("#"+settings.scrollElementId).show('slow');              
           }
           else {
-            $("#"+settings.scrollElementId).hide('slow');      
+            jQuery("#"+settings.scrollElementId).hide('slow');      
           }
       });
  };
