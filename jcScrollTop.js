@@ -20,17 +20,18 @@ jQuery.fn.jcScrollTop = function(settings) {
                     }
     },settings);
       
-      var windowCenter = Math.max(0, ((jQuery(window).width() - this.outerWidth()) / 2) + jQuery(window).scrollLeft()) + "px";
-
-      jQuery("body").append("<div id='"+settings.scrollElementId+"' style='background:"+settings.backgroundColor+";border:"+settings.containerBorder+";border-radius:"+settings.borderRadius+";position:fixed;bottom:-2px;width:"+settings.containerWidth+";font-weight:"+settings.fontWeight+";color:"+settings.foreColor+";text-align:center;font-family:"+settings.fontFamily+";font-size:"+settings.fontSize+";cursor:pointer;padding:"+settings.textPadding+"'>"+settings.scrollText+"</div>")
-      
-      if(settings.position == 'left') 
-        jQuery("#"+settings.scrollElementId).css("left",'10px');
-      else if(settings.position == 'center') 
-        jQuery("#"+settings.scrollElementId).css("left",windowCenter);
-      else 
-        jQuery("#"+settings.scrollElementId).css("right",'10px');
-
+      $cur = this;	
+      jQuery("body").append("<div id='" + settings.scrollElementId + "' style='z-index:99999 !important;background:" + settings.backgroundColor + ";border:" + settings.containerBorder + ";border-radius:" + settings.borderRadius + ";position:fixed;bottom:-2px;width:" + settings.containerWidth + ";font-weight:" + settings.fontWeight + ";color:" + settings.foreColor + ";text-align:center;font-family:" + settings.fontFamily + ";font-size:" + settings.fontSize + ";cursor:pointer;padding:" + settings.textPadding + "'>" + settings.scrollText + "</div>");
+      var jcreposition = function() {
+			  var windowCenter = Math.max(0, ((jQuery(window).width() - $cur.outerWidth()) / 2) + jQuery(window).scrollLeft() - (parseInt(settings.containerWidth.replace('px',''))/2)) -  parseInt(settings.textPadding.replace('px','')) + "px";	
+			  if(settings.position == 'left') 
+				jQuery("#"+settings.scrollElementId).css("left",'10px');
+			  else if(settings.position == 'center') 
+				jQuery("#"+settings.scrollElementId).css("left",windowCenter);
+			  else 
+				jQuery("#"+settings.scrollElementId).css("right",'10px');
+	  }
+	  jcreposition();
       jQuery("#"+settings.scrollElementId).hide().click(function(){
           jQuery("html,body").animate({
                                     scrollTop:0
@@ -41,10 +42,14 @@ jQuery.fn.jcScrollTop = function(settings) {
                                     settings.callback();  
                                   });
       });
+
+	  jQuery(window).resize(function() {
+			setTimeout(function(){jcreposition();},150);
+	  });	
+
       jQuery(window).scroll(function(){
           var whereat = jQuery(window).scrollTop();
           if(whereat > settings.scroleActivateAt) {
-            // you can do all sort of animations here
             jQuery("#"+settings.scrollElementId).show('slow');              
           }
           else {
